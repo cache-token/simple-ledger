@@ -1361,7 +1361,7 @@ function App() {
             placeholder="e.g. 100"
           />
 
-          <Text>Enter your account myNonce</Text>
+          <Text>Enter your account nonce</Text>
           <Input
             type="text"
             fontSize="1"

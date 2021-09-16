@@ -7,6 +7,7 @@ Once set you can then change the contract function to interact with your contrac
 # Running in localhost
 
 ```
+yarn install
 yarn start
 ```
 

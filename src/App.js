@@ -1362,11 +1362,11 @@ function App() {
       ></Text>
       <div>
         <Box x bg="salmon" color="white" fontSize={4}>
-          <Heading>Ledger CGT extractor </Heading>
+          <Heading>Ledger Cache Toolkit </Heading>
           <Box pb="2">
             <Button onClick={() => fetchAddress()}>
               {" "}
-              Connect Ledger and get my CGT Address at {dPath}
+              Connect Ledger and get my Address at {dPath}
             </Button>
           </Box>
           <EthAddress address={fromAddress} />

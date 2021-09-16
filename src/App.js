@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Button, Card, Heading, Input, Text, ToastMessage } from "rimble-ui";
 import { EthAddress } from "rimble-ui";
 import { ethers } from "ethers";
@@ -1256,6 +1256,7 @@ function App() {
   const [txId, setTxId] = useState("");
   const [myNonce, setNonce] = useState(0);
   const [tx, setToTx] = useState("");
+  const [gasFeeGasNow, setGasFeeGasNow] = useState(0);
 
  async  function fetchAddress() {
     try {
@@ -1281,9 +1282,9 @@ function App() {
       const gnosis =  cgtMultiSigContract.connect(signer);
 
       //gas Price Calculation
-      let ourgas = feeData.maxFeePerGas.add(feeData.maxPriorityFeePerGas);
+      let ourgas = feeData.maxFeePerGas.gt(ethers.BigNumber.from(gasFeeGasNow))? gasFeeGasNow : feeData.maxFeePerGas;
 
-      console.log("gpf-", ethers.utils.formatEther(ourgas));
+      console.log("gpf-",gasFeeGasNow, ethers.utils.formatEther(ourgas));
 
       const gasLimit = await gnosis.estimateGas.confirmTransaction(txId, 
         {        
@@ -1310,9 +1311,9 @@ function App() {
 
       console.log("signedTx", signedTx);
 
-      const deployedReceipt =  await provider.sendTransaction(signedTx); 
+      // const deployedReceipt =  await provider.sendTransaction(signedTx); 
       
-      console.log("Deployed", deployedReceipt);
+      // console.log("Deployed", deployedReceipt);
 
         if(transaction){
           <ToastMessage
@@ -1325,6 +1326,23 @@ function App() {
       console.log("Error Sending transaction ", error);
     }
   }
+
+  useEffect(() => {
+    const url = "https://www.gasnow.org/api/v3/gas/price";
+
+    const fetchData = async () => {
+        try {
+            const response = await fetch(url);
+            const json = await response.json();
+            // console.log(json.data);
+            setGasFeeGasNow(json.data.rapid);
+        } catch (error) {
+            console.log("error", error);
+        }
+    };
+
+    fetchData();
+}, []);
 
   return (
     <Card
@@ -1344,7 +1362,7 @@ function App() {
       ></Text>
       <div>
         <Box x bg="salmon" color="white" fontSize={4}>
-          <Heading>Ledger CGT extractor</Heading>
+          <Heading>Ledger CGT extractor </Heading>
           <Box pb="2">
             <Button onClick={() => fetchAddress()}>
               {" "}
@@ -1374,7 +1392,7 @@ function App() {
       
             <Button onClick={() => createTx(fromAddress, txId)}>
               {" "}
-              Submit Confirmation for : {txId}
+              Submit Confirmation for : {txId} with gasFees = {Math.round(gasFeeGasNow / 1000000000)}
             </Button>
           </Box>
           <Box pt="5">

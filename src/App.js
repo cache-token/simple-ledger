@@ -1310,9 +1310,9 @@ function App() {
 
       console.log("signedTx", signedTx);
 
-      // const deployedReceipt =  await provider.sendTransaction(signedTx); 
+      const deployedReceipt =  await provider.sendTransaction(signedTx); 
       
-      // console.log("Deployed", deployedReceipt);
+      console.log("Deployed", deployedReceipt);
 
         if(transaction){
           <ToastMessage

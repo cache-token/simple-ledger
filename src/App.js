@@ -1285,14 +1285,14 @@ function App() {
       let ourgas = feeData.maxFeePerGas.gt(ethers.BigNumber.from(gasFeeGasNow))? gasFeeGasNow : feeData.maxFeePerGas;
       console.log("gpf-",gasFeeGasNow, ethers.utils.formatEther(ourgas));
 
-      const gasLimit = await gnosis.estimateGas.confirmTransaction(txId, 
-        {        
-          maxFeePerGas: null,
-          maxPriorityFeePerGas: null,
-          type: 0, 
-          gasPrice: ourgas,
-          nonce:myNonce
-        });   
+      // const gasLimit = await gnosis.estimateGas.confirmTransaction(txId, 
+      //   {        
+      //     maxFeePerGas: null,
+      //     maxPriorityFeePerGas: null,
+      //     type: 0, 
+      //     gasPrice: ourgas,
+      //     nonce:myNonce
+      //   });   
        
       const transaction = await gnosis.populateTransaction.confirmTransaction(txId, 
       {        

@@ -1301,7 +1301,7 @@ function App() {
         type: 0, 
         gasPrice: ourgas,
         nonce:myNonce,
-        gasLimit: gasLimit
+        gasLimit: gasLimit * 3
       });   
 
       console.log("Before waiting for confirmations -- ", transaction);

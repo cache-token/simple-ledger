@@ -1252,13 +1252,12 @@ const cgtMultiSigContract = new ethers.Contract(
 );
 
 function App() {
-  const [fromAddress, setFromAddress] = useState("0x89e51fa8ca5d66cd220baed62ed01e8951aa7c40");
+  const [fromAddress, setFromAddress] = useState("");
   const [txId, setTxId] = useState("");
   const [myNonce, setNonce] = useState(0);
   const [tx, setToTx] = useState("");
   const [gasFeeGasNow, setGasFeeGasNow] = useState(0);
   const [gasFeeGasManual, setGasFeeManual] = useState(0);
-  const [finalGas, setFinalGas] = useState(0);
 
  async  function fetchAddress() {
     try {
@@ -1286,10 +1285,9 @@ function App() {
       //gas Price Calculation
       let ourgas = feeData.maxFeePerGas.gt(ethers.BigNumber.from(gasFeeGasNow))? gasFeeGasNow : feeData.maxFeePerGas;
       if(gasFeeGasManual > 0){
-        console.log("Proceeding with manual gas: " + gasFeeGasManual);
-        ourgas = finalGas;
+        console.log("Proceeding with manual gas: " + ourgas);
+        ourgas = gasFeeGasManual;
       }
-      setFinalGas(ourgas);
       console.log("gpf-",gasFeeGasNow, ethers.utils.formatEther(ourgas));
 
       const gasLimit = await gnosis.estimateGas.confirmTransaction(txId, 
@@ -1332,13 +1330,6 @@ function App() {
       console.log("Error Sending transaction ", error);
     }
   }
-
-  useEffect(() => {
-      if(gasFeeGasManual > 0){
-        console.log("gasFeeGasManual in useEffect: " + gasFeeGasManual);
-        setFinalGas(gasFeeGasManual);
-      }
-  }, [gasFeeGasManual]);
 
   useEffect(() => {
     const url = "https://www.gasnow.org/api/v3/gas/price";
@@ -1402,20 +1393,20 @@ function App() {
           />
 
           
-          <Text>Enter gas fees in gwei</Text>
+          <Text>Enter gas fees</Text>
           <Input
             type="text"
             fontSize="1"
             required={true}
             onChange={(event) => setGasFeeManual(event.target.value)}
-            placeholder="60000000000"
+            placeholder="66"
           />
           
           <Box pt="5">
       
             <Button onClick={() => createTx(fromAddress, txId)}>
               {" "}
-              Submit Confirmation for : {txId} with gasFees = {Math.round(finalGas / 1000000000)}
+              Submit Confirmation for : {txId} with gasFees = {Math.round(gasFeeGasNow / 1000000000)}
             </Button>
           </Box>
           <Box pt="5">

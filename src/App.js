@@ -1257,7 +1257,6 @@ function App() {
   const [myNonce, setNonce] = useState(0);
   const [tx, setToTx] = useState("");
   const [gasFeeGasNow, setGasFeeGasNow] = useState(0);
-  const [gasFeeGasManual, setGasFeeManual] = useState(0);
 
  async  function fetchAddress() {
     try {
@@ -1284,10 +1283,6 @@ function App() {
 
       //gas Price Calculation
       let ourgas = feeData.maxFeePerGas.gt(ethers.BigNumber.from(gasFeeGasNow))? gasFeeGasNow : feeData.maxFeePerGas;
-      if(gasFeeGasManual > 0){
-        console.log("Proceeding with manual gas: " + ourgas);
-        ourgas = gasFeeGasManual;
-      }
       console.log("gpf-",gasFeeGasNow, ethers.utils.formatEther(ourgas));
 
       const gasLimit = await gnosis.estimateGas.confirmTransaction(txId, 
@@ -1390,16 +1385,6 @@ function App() {
             required={true}
             onChange={(event) => setNonce(event.target.value)}
             placeholder="0"
-          />
-
-          
-          <Text>Enter gas fees</Text>
-          <Input
-            type="text"
-            fontSize="1"
-            required={true}
-            onChange={(event) => setGasFeeManual(event.target.value)}
-            placeholder="66"
           />
           
           <Box pt="5">

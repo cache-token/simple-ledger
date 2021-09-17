@@ -5,7 +5,7 @@ import { ethers } from "ethers";
 import { LedgerSigner } from "@ethersproject/hardware-wallets";
 const network = "mainnet";
 
-let dPath = `m/44'/60'/5'/0/0`;
+let dPath = `m/44'/60'/0'/0`;
 // let provider = ethers.providers.getDefaultProvider(network, {
 //   infura: "7df83af29c4e45ffa25e3da6982e0ba2",
 // });
@@ -1278,7 +1278,7 @@ function App() {
       console.log('gp -',ethers.utils.formatEther(feeData.gasPrice));
       console.log('mf -', ethers.utils.formatEther(feeData.maxFeePerGas));
       console.log('mp -', ethers.utils.formatEther(feeData.maxPriorityFeePerGas));
-      const signer = new LedgerSigner(provider, null, `m/44'/60'/5'/0/0`);
+      const signer = new LedgerSigner(provider, null, `m/44'/60'/0'/0`);
       const gnosis =  cgtMultiSigContract.connect(signer);
 
       //gas Price Calculation

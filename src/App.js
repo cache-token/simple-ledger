@@ -1293,7 +1293,7 @@ function App() {
           gasPrice: ourgas,
           nonce:myNonce
         });   
-
+       
       const transaction = await gnosis.populateTransaction.confirmTransaction(txId, 
       {        
         maxFeePerGas: null,
@@ -1301,7 +1301,7 @@ function App() {
         type: 0, 
         gasPrice: ourgas,
         nonce:myNonce,
-        gasLimit: gasLimit * 3
+        gasLimit: 500000
       });   
 
       console.log("Before waiting for confirmations -- ", transaction);
